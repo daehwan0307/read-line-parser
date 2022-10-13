@@ -15,25 +15,38 @@ class HospitalParserTest {
     String category = "C";
     int emergencyRoom = 2;
     String name = "가산기대찬의원";
+    private void assertHospital(Hospital hospital, String eId, String eAddress, String eDistrict, String eCategory, Integer eEmergencyRoom, String eName, String eSubdivision) {
+
+        Assertions.assertEquals(eId, hospital.getId());
+
+        //주소가 잘 파싱 되는지 테스트 추가
+        Assertions.assertEquals(eAddress, hospital.getAddress());
+
+        //District
+        Assertions.assertEquals(eDistrict, hospital.getDistrict());
+
+        //Category
+        Assertions.assertEquals(eCategory, hospital.getCategory());
+
+        //Emergency Room
+        Assertions.assertEquals(eEmergencyRoom, hospital.getEmergencyRoom());
+
+        //Name
+        Assertions.assertEquals(eName, hospital.getName());
+
+        // Subdivision
+        Assertions.assertEquals(eSubdivision, hospital.getSubdivision());
+    }
+
     @Test
     @DisplayName("parsing doing well")
     void hospitalParsing() {
         HospitalParser hospitalParser = new HospitalParser();
         Hospital hospital = hospitalParser.parse(this.line1);
-        Assertions.assertEquals("A1120837",hospital.getId());
-        //address parsing test
-        Assertions.assertEquals(address,hospital.getAddress());
 
-        //district parsing test
-        Assertions.assertEquals(district,hospital.getDistrict());
-        //hospital parsing test
-        Assertions.assertEquals(category,hospital.getCategory());
-
-        //emergencyRoom parsing test
-        Assertions.assertEquals(emergencyRoom,hospital.getEmergencyRoom());
-
-        //hospital name parsing test
-        Assertions.assertEquals(name,hospital.getName());
+        assertHospital(hospitalParser.parse(this.line1),
+                "A1120837","서울특별시 금천구 벚꽃로 286 삼성리더스타워 111~114호 (가산동)","서울특별시 금천구"
+        ,"C",2,"가산기대찬의원","");
 
     }
 }

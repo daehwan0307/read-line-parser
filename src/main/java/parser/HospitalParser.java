@@ -4,8 +4,21 @@ import domain.Hospital;
 
 public class HospitalParser implements Parser<Hospital>{
 
+    private String getSubdivision(String name){
+        String[] suvdivisions = { "소아과", "피부과", "성형외과", "정형외과",  "산부인과",  "안과", "가정의학과", "비뇨기과", "치과","내과", "외과"};
+
+        for(String suvdivision : suvdivisions){
+            if(name.contains(suvdivision)){
+                return suvdivision;
+            }
+
+        }
+        return "";
+
+    }
     @Override
     public Hospital parse(String str) {
+
         str =str.replaceAll("\"","");
         String[] splitted = str.split(",");
 //      address;
@@ -15,6 +28,9 @@ public class HospitalParser implements Parser<Hospital>{
 //      name;
 //      subdivision;
         // subdivision은 파싱을 해서 넣는 것이 좋을 것 같다.
-        return new Hospital(splitted[0],splitted[1],splitted[2],Integer.parseInt(splitted[6]),splitted[10],splitted[10]);
+        String name = splitted[10];
+        String subdivision= getSubdivision(name);
+        return new Hospital(splitted[0],splitted[1],splitted[2],
+                Integer.parseInt(splitted[6]),name,subdivision);
     }
 }

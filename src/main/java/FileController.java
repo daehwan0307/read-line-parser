@@ -6,15 +6,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LineReader<T> {
+public class FileController<T> {
     Parser<T> parser;
     boolean isRemoveColumnName = true;
 
-    public LineReader(Parser<T> parser) {
+    public FileController(Parser<T> parser) {
         this.parser = parser;
     }
 
-    public LineReader(Parser<T> parser, boolean isRemoveColumnName) {
+    public FileController(Parser<T> parser, boolean isRemoveColumnName) {
         this.parser = parser;
         this.isRemoveColumnName = isRemoveColumnName;
     }
