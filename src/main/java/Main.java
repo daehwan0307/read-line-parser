@@ -22,5 +22,6 @@ public class Main {
         String sqlFilename = "hospital_insert.sql";
         hospitalFileController.createANewFile(sqlFilename);
         hospitalFileController.writeLines(lines, sqlFilename);
+
     }
 }
