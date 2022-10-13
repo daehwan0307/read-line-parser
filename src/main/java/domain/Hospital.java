@@ -10,7 +10,7 @@ public class Hospital {
     private String subdivision; // snake camel
 
     public Hospital(String id) {
-        this.id = id;
+        this.id = id.replace("\"","");
     }
 
     public String getId() {
