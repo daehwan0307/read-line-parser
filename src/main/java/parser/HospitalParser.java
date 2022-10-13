@@ -11,8 +11,9 @@ public class HospitalParser implements Parser<Hospital>{
             if (name.contains(subdivision)) {
                 return subdivision;
             }
+
         }
-        return "?";
+        return "";
     }
     @Override
     public Hospital parse(String str) {

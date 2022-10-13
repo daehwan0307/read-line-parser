@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         boolean a=true;
         FileController<Hospital> hospitalFileController = new FileController<>(new HospitalParser(),a);
-        String filename =   "C:\\Users\\daehwan\\Desktop\\¼­¿ï½Ã º´ÀÇ¿ø À§Ä¡Á¤º¸.csv";
+        String filename =   "C:\\Users\\daehwan\\Desktop\\ì„œìš¸ì‹œ ë³‘ì˜ì› ìœ„ì¹˜ì •ë³´.csv";
         List<Hospital> hospitals = hospitalFileController.readLines(filename);
 
         System.out.println(hospitals.size());
