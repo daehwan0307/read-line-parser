@@ -21,11 +21,18 @@ class HospitalParserTest {
         HospitalParser hospitalParser = new HospitalParser();
         Hospital hospital = hospitalParser.parse(this.line1);
         Assertions.assertEquals("A1120837",hospital.getId());
-        //주소가 잘 파싱 되는지 테스트 추가
+        //address parsing test
         Assertions.assertEquals(address,hospital.getAddress());
+
+        //district parsing test
         Assertions.assertEquals(district,hospital.getDistrict());
+        //hospital parsing test
         Assertions.assertEquals(category,hospital.getCategory());
+
+        //emergencyRoom parsing test
         Assertions.assertEquals(emergencyRoom,hospital.getEmergencyRoom());
+
+        //hospital name parsing test
         Assertions.assertEquals(name,hospital.getName());
 
     }
