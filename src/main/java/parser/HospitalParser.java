@@ -8,6 +8,9 @@ public class HospitalParser implements Parser<Hospital>{
     public Hospital parse(String str) {
         str =str.replaceAll("\"","");
         String[] splitted = str.split(",");
+//      address;
+//      district;
+
         return new Hospital((splitted[0]),((splitted[1])));
     }
 }

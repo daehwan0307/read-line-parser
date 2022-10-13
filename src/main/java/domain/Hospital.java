@@ -14,7 +14,10 @@ public class Hospital {
     }
 
     public String getDistrict() {
-        return district;
+
+        String[] splitted = this.address.split(" ");
+
+        return String.format("%s %s",splitted[0],splitted[1]);
     }
 
     public String getCategory() {
@@ -39,6 +42,15 @@ public class Hospital {
     private Integer emergencyRoom; // snake camel
     private String name; // snake camel
     private String subdivision; // snake camel
+
+    public Hospital(String id, String address, String category, Integer emergencyRoom, String name, String subdivision) {
+        this.id = id;
+        this.address = address;
+        this.category = category;
+        this.emergencyRoom = emergencyRoom;
+        this.name = name;
+        this.subdivision = subdivision;
+    }
 
     public Hospital(String id) {
         this.id = id.replace("\"","");
