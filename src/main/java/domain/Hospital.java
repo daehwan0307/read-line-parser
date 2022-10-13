@@ -10,6 +10,7 @@ public class Hospital {
 
 
     public String getAddress() {
+
         return address;
     }
 
@@ -23,14 +24,17 @@ public class Hospital {
     }
 
     public Integer getEmergencyRoom() {
+
         return emergencyRoom;
     }
 
     public String getName() {
+
         return name;
     }
 
     public String getSubdivision() {
+
         return subdivision;
     }
 
@@ -44,8 +48,7 @@ public class Hospital {
     public Hospital(String id, String address, String category, Integer emergencyRoom, String name, String subdivision) {
         this.id = id;
         this.address = address;
-        String[] splitted = this.address.split(" ");
-        this.district = String.format("%s %s",splitted[0],splitted[1]);
+        this.setDistrict();
         this.category = category;
         this.emergencyRoom = emergencyRoom;
         this.name = name;
@@ -53,10 +56,16 @@ public class Hospital {
     }
 
     public Hospital(String id) {
+
         this.id = id.replace("\"","");
     }
 
     public String getId() {
+
         return id;
+    }
+    private  void setDistrict(){
+        String[] splitted = this.address.split(" ");
+        this.district = String.format("%s %s",splitted[0],splitted[1]);
     }
 }
