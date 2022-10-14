@@ -44,7 +44,7 @@ public class Hospital {
 
     private void setDistrict() {
         String[] splitted = this.address.split(" ");
-        this.district = String.format("%s %s", splitted[0], splitted[1]);
+         this.district = String.format("%s %s", splitted[0], splitted[1]);
     }
 
     public String getId() {
