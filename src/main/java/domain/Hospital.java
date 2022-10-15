@@ -33,6 +33,7 @@ public class Hospital {
         return sql;
     }
 
+
     public String getTupleString() {
         String sql = String.format(
                 "(\"%s\",\"%s\"," +"\"%s\"," +
