@@ -7,10 +7,12 @@ import java.util.Map;
 
 public class UserDao {
 
-    AwsConnectionMaker awsConnectionMaker = new AwsConnectionMaker();
-
+   private ConnectionMaker connectionMaker;
+    public UserDao(){
+        this.connectionMaker = new AWSConnectionMaker();
+    }
     public User get(String id) throws SQLException, ClassNotFoundException {
-        Connection conn = awsConnectionMaker.getConnection();
+        Connection conn = connectionMaker.makeConnection();
 
         /*DB에 쿼리 입력 후 바인딩*/
         PreparedStatement ps = conn.prepareStatement("SELECT id, name, password FROM users WHERE id = ?");
@@ -31,7 +33,7 @@ public class UserDao {
     //Dao : data access object
     public  void add(User user) throws SQLException,ClassNotFoundException {
 
-        Connection conn = awsConnectionMaker.getConnection();
+        Connection conn = connectionMaker.makeConnection();
 
         PreparedStatement ps =conn.prepareStatement("INSERT  INTO  users(id,name,password) values (?,?,?)");
 
@@ -45,7 +47,7 @@ public class UserDao {
     }
     public User findById(String id) throws SQLException, ClassNotFoundException {
 
-        Connection conn = awsConnectionMaker.getConnection();
+        Connection conn = connectionMaker.makeConnection();
 
         //Query 문 작성
         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users where id = ?");
