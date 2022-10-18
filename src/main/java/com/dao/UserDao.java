@@ -11,6 +11,9 @@ public class UserDao {
     public UserDao(){
         this.connectionMaker = new AWSConnectionMaker();
     }
+    public UserDao(ConnectionMaker connectionMaker){
+        this.connectionMaker = connectionMaker;
+    }
     public User get(String id) throws SQLException, ClassNotFoundException {
         Connection conn = connectionMaker.makeConnection();
 
