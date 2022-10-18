@@ -7,18 +7,10 @@ import java.util.Map;
 
 public class UserDao {
 
-    private Connection getConnection() throws ClassNotFoundException,SQLException{
-        Map<String, String> env = System.getenv(); // 환경변수를 사용하여
-        String dbHost = env.get("DB_HOST");
-        String dbUser = env.get("DB_USER");
-        String dbPassword = env.get("DB_PASSWORD");
+    AwsConnectionMaker awsConnectionMaker = new AwsConnectionMaker();
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(dbHost, dbUser, dbPassword);
-        return conn;
-    }
     public User get(String id) throws SQLException, ClassNotFoundException {
-        Connection conn =getConnection();
+        Connection conn = awsConnectionMaker.getConnection();
 
         /*DB에 쿼리 입력 후 바인딩*/
         PreparedStatement ps = conn.prepareStatement("SELECT id, name, password FROM users WHERE id = ?");
@@ -39,7 +31,7 @@ public class UserDao {
     //Dao : data access object
     public  void add(User user) throws SQLException,ClassNotFoundException {
 
-        Connection conn =getConnection();
+        Connection conn = awsConnectionMaker.getConnection();
 
         PreparedStatement ps =conn.prepareStatement("INSERT  INTO  users(id,name,password) values (?,?,?)");
 
@@ -53,7 +45,7 @@ public class UserDao {
     }
     public User findById(String id) throws SQLException, ClassNotFoundException {
 
-        Connection conn =getConnection();
+        Connection conn = awsConnectionMaker.getConnection();
 
         //Query 문 작성
         PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users where id = ?");
