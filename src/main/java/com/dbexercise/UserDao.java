@@ -32,7 +32,7 @@ public class UserDao {
         return user;
     }
     //Dao : data access object
-    public  void add() throws SQLException,ClassNotFoundException {
+    public  void add(User user) throws SQLException,ClassNotFoundException {
 
         Map<String,String> env =System.getenv();
         String dbHost = env.get("DB_HOST");
@@ -45,9 +45,9 @@ public class UserDao {
 
         PreparedStatement ps =conn.prepareStatement("INSERT  INTO  users(id,name,password) values (?,?,?)");
 
-        ps.setString(1,"2");
-        ps.setString(2,"dae");
-        ps.setString(3,"1234");
+        ps.setString(1,user.getId());
+        ps.setString(2,user.getName());
+        ps.setString(3,user.getPassword());
 
         int status = ps.executeUpdate();
         ps.close();
@@ -56,8 +56,10 @@ public class UserDao {
 
     public static void main(String[] args) throws SQLException,ClassNotFoundException {
         UserDao userDao = new UserDao();
-      //  userDao.add();
-        User testUser = userDao.get("2");
-        System.out.println(testUser.getName());
+        userDao. add(new User("7","hwan","1234"));
+     //   User testUser = userDao.get("2");
+      //  System.out.println(testUser.getName());
     }
+
+
 }
