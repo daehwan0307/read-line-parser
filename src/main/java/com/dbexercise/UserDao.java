@@ -31,10 +31,12 @@ public class UserDao {
 
         return user;
     }
+
     //Dao : data access object
     public  void add(User user) throws SQLException,ClassNotFoundException {
 
         Map<String,String> env =System.getenv();
+
         String dbHost = env.get("DB_HOST");
         String dbUser = env.get("DB_USER");
         String dbPassword = env.get("DB_PASSWORD");
@@ -52,6 +54,31 @@ public class UserDao {
         int status = ps.executeUpdate();
         ps.close();
         conn.close();
+    }
+    public User findById(String id) throws SQLException, ClassNotFoundException {
+
+        Map<String,String> env =System.getenv();
+
+        String dbHost = env.get("DB_HOST");
+        String dbUser = env.get("DB_USER");
+        String dbPassword = env.get("DB_PASSWORD");
+
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = DriverManager.getConnection(dbHost,dbUser,dbPassword);
+
+        //Query 문 작성
+        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users where id = ?");
+        pstmt.setString(1,id);
+        ResultSet rs = pstmt.executeQuery();
+        rs.next();
+        User user = new User(rs.getString("id"), rs.getString("name"),rs.getString("password"));
+        //사용 종료 close.
+        rs.close();
+        pstmt.close();
+        conn.close();
+
+        return user;
     }
 
     public static void main(String[] args) throws SQLException,ClassNotFoundException {
