@@ -1,4 +1,4 @@
-package com.dbexercise;
+package com.dao;
 
 import domain.User;
 
