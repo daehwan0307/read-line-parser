@@ -10,10 +10,10 @@ class UserDaoTest {
 
     @Test
     void addAndSelect() throws SQLException, ClassNotFoundException {
-        UserDao userDao = new UserDao();
-        String id ="15";
-        userDao.add(new User(id,"rara","123456"));
+        UserDao userDao = new UserDao(new AWSConnectionMaker());
+        String id ="16";
+        userDao.add(new User(id,"daara","123456"));
         User user = userDao.findById(id);
-        Assertions.assertEquals("rara",user.getName());
+        Assertions.assertEquals("daara",user.getName());
     }
 }
