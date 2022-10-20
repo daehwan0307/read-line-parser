@@ -18,12 +18,17 @@ class UserDaoTest {
     @Autowired
     ApplicationContext context;
     @Test
-    void addAndSelect() throws SQLException, ClassNotFoundException {
+    void addAndGet() throws SQLException, ClassNotFoundException {
        // UserDao userDao = new UserDao(new AWSConnectionMaker());
         UserDao userDao = context.getBean("awsUserDao",UserDao.class);
-        String id ="18";
+        userDao.deleteAll();
+        Assertions.assertEquals(0,userDao.getCount());
+
+        String id ="1";
         userDao.add(new User(id,"daara","123456"));
+        Assertions.assertEquals(1,userDao.getCount());
         User user = userDao.findById(id);
         Assertions.assertEquals("daara",user.getName());
+        Assertions.assertEquals("123456",user.getPassword());
     }
 }
