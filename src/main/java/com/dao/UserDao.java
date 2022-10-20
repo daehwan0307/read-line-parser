@@ -1,6 +1,7 @@
 package com.dao;
 
 import domain.User;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.sql.*;
 import java.util.Map;
@@ -53,17 +54,32 @@ public class UserDao {
         Connection conn = connectionMaker.makeConnection();
 
         //Query 문 작성
-        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users where id = ?");
-        pstmt.setString(1,id);
-        ResultSet rs = pstmt.executeQuery();
-        rs.next();
-        User user = new User(rs.getString("id"), rs.getString("name"),rs.getString("password"));
-        //사용 종료 close.
-        rs.close();
-        pstmt.close();
-        conn.close();
+        try {
+            conn = connectionMaker.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?");
+            pstmt.setString(1, id);
 
-        return user;
+            ResultSet rs = pstmt.executeQuery();
+            User user = null;
+            if (rs.next()) {
+                user = new User(rs.getString("id"), rs.getString("name"),
+                        rs.getString("password"));
+
+            };
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+            //없으면 exception
+            if(user==null)throw new EmptyResultDataAccessException(1);
+
+            return user;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
     public void deleteAll()throws SQLException,ClassNotFoundException{
         Connection conn = connectionMaker.makeConnection();
