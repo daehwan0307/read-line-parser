@@ -21,7 +21,7 @@ class UserDaoTest {
     void addAndSelect() throws SQLException, ClassNotFoundException {
        // UserDao userDao = new UserDao(new AWSConnectionMaker());
         UserDao userDao = context.getBean("awsUserDao",UserDao.class);
-        String id ="17";
+        String id ="18";
         userDao.add(new User(id,"daara","123456"));
         User user = userDao.findById(id);
         Assertions.assertEquals("daara",user.getName());
