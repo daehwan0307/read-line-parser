@@ -8,13 +8,16 @@ import java.util.Map;
 
 public class UserDao {
 
-   private ConnectionMaker connectionMaker;
-    public UserDao(){
+    private ConnectionMaker connectionMaker;
+
+    public UserDao() {
         this.connectionMaker = new AWSConnectionMaker();
     }
-    public UserDao(ConnectionMaker connectionMaker){
+
+    public UserDao(ConnectionMaker connectionMaker) {
         this.connectionMaker = connectionMaker;
     }
+
     public User get(String id) throws SQLException, ClassNotFoundException {
         Connection conn = connectionMaker.makeConnection();
 
@@ -35,20 +38,21 @@ public class UserDao {
     }
 
     //Dao : data access object
-    public  void add(User user) throws SQLException,ClassNotFoundException {
+    public void add(User user) throws SQLException, ClassNotFoundException {
 
         Connection conn = connectionMaker.makeConnection();
 
-        PreparedStatement ps =conn.prepareStatement("INSERT  INTO  users(id,name,password) values (?,?,?)");
+        PreparedStatement ps = conn.prepareStatement("INSERT  INTO  users(id,name,password) values (?,?,?)");
 
-        ps.setString(1,user.getId());
-        ps.setString(2,user.getName());
-        ps.setString(3,user.getPassword());
+        ps.setString(1, user.getId());
+        ps.setString(2, user.getName());
+        ps.setString(3, user.getPassword());
 
         int status = ps.executeUpdate();
         ps.close();
         conn.close();
     }
+
     public User findById(String id) throws SQLException, ClassNotFoundException {
 
         Connection conn = connectionMaker.makeConnection();
@@ -65,14 +69,15 @@ public class UserDao {
                 user = new User(rs.getString("id"), rs.getString("name"),
                         rs.getString("password"));
 
-            };
+            }
+            ;
 
             rs.close();
             pstmt.close();
             conn.close();
 
             //없으면 exception
-            if(user==null)throw new EmptyResultDataAccessException(1);
+            if (user == null) throw new EmptyResultDataAccessException(1);
 
             return user;
 
@@ -81,13 +86,35 @@ public class UserDao {
         }
 
     }
-    public void deleteAll()throws SQLException,ClassNotFoundException{
-        Connection conn = connectionMaker.makeConnection();
-        PreparedStatement ps = conn.prepareStatement("delete from users");
-        ps.executeUpdate();
-        ps.close();
-        conn.close();
+
+    public void deleteAll() throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = connectionMaker.makeConnection();
+            ps = conn.prepareStatement("delete from users");
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (ps != null)
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+
+                }
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+            }
+        }
     }
+
+
     public int getCount() throws  SQLException,ClassNotFoundException{
         Connection conn = connectionMaker.makeConnection();
         PreparedStatement ps = conn.prepareStatement("select count(*) from users");
@@ -105,6 +132,24 @@ public class UserDao {
         userDao. add(new User("7","hwan","1234"));
      //   User testUser = userDao.get("2");
       //  System.out.println(testUser.getName());
+    }
+    public class AddStrategy implements StatementStrategy{
+        User user;
+
+        public AddStrategy(User user) {
+            this.user = user;
+        }
+
+        @Override
+        public PreparedStatement makeStatement(Connection conn) throws SQLException {
+
+            PreparedStatement pstmt = null;
+            pstmt = conn.prepareStatement("INSERT INTO users(id, name, password) VALUES(?,?,?);");
+            pstmt.setString(1, user.getId());
+            pstmt.setString(2, user.getName());
+            pstmt.setString(3, user.getPassword());
+            return pstmt;
+        }
     }
 
 
